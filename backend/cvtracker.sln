@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cvtracker.api", "Api\cvtracker.api.csproj", "{BFFD51BB-416B-489C-95AC-8E3F8505466E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cvtracker.database", "Database\cvtracker.database.csproj", "{C35AF820-9BEF-4C72-911D-A6EFE5A4CFFA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFFD51BB-416B-489C-95AC-8E3F8505466E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFFD51BB-416B-489C-95AC-8E3F8505466E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFFD51BB-416B-489C-95AC-8E3F8505466E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFFD51BB-416B-489C-95AC-8E3F8505466E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C35AF820-9BEF-4C72-911D-A6EFE5A4CFFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C35AF820-9BEF-4C72-911D-A6EFE5A4CFFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C35AF820-9BEF-4C72-911D-A6EFE5A4CFFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C35AF820-9BEF-4C72-911D-A6EFE5A4CFFA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
