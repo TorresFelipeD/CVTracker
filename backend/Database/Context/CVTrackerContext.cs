@@ -15,17 +15,21 @@ namespace Database.Context
         }
 
         public DbSet<Company>? Companies { get; set; }
-        public DbSet<Job>? Jobs { get; set; }
-        public DbSet<Status>? Status { get; set; }
-        public DbSet<Skill>? Skills { get; set; }
-        public DbSet<Requirement>? Requirements { get; set; }
         public DbSet<EmploymentExchange>? EmploymentExchanges { get; set; }
+        public DbSet<Requirement>? Requirements { get; set; }
+        public DbSet<Skill>? Skills { get; set; }
+        public DbSet<Status>? Status { get; set; }
+        public DbSet<Job>? Jobs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder){
             base.OnModelCreating(modelBuilder);
 
             InMemoryMethods inMemoryMethods = InMemoryMethods.GetInstance();
             modelBuilder.Entity<Company>().HasData(inMemoryMethods.CreateCompanies());
+            modelBuilder.Entity<EmploymentExchange>().HasData(inMemoryMethods.CreateEmploymentExchanges());
+            modelBuilder.Entity<Requirement>().HasData(inMemoryMethods.CreateRequirement());
+            modelBuilder.Entity<Skill>().HasData(inMemoryMethods.CreateSkills());
+            modelBuilder.Entity<Status>().HasData(inMemoryMethods.CreateStatus());
         }
     }
 }

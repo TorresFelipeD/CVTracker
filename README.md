@@ -13,4 +13,4 @@ Las tecnologias que se van a usar para el desarrollo de la aplicación son:
 
 |Backend|Frontend|DB|
 |--|--|--|
-|NodeJs|Angular|MongoDB|
+|.Net 6|Angular|SqlServer|
