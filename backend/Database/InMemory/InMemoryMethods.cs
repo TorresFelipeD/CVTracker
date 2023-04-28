@@ -58,5 +58,10 @@ namespace Database.InMemory
 
             return listCompanies;
         }
+
+        public void CreateEmploymentExchanges(){
+            
+        }
+    
     }
 }

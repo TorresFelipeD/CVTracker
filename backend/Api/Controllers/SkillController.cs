@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Database.Context;
 using Database.Models;
 using Newtonsoft.Json;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CompanyController : ControllerBase
+    public class SkillController : ControllerBase
     {
         private readonly CVTrackerContext _context;
         private readonly IConfiguration _configuration;
-        public CompanyController(CVTrackerContext _context, IConfiguration _configuration)
+        public SkillController(CVTrackerContext _context, IConfiguration _configuration)
         {
             this._context = _context;
             this._configuration = _configuration;
@@ -27,7 +27,7 @@ namespace Api.Controllers
         {
             try
             {
-                return Ok(_context?.Companies?.ToList().OrderBy(x => x.Id).ToList());
+                return Ok(_context?.Skills?.ToList().OrderBy(x => x.Id).ToList());
             }
             catch (System.Exception ex)
             {
@@ -42,7 +42,7 @@ namespace Api.Controllers
             {
                 if (!string.IsNullOrEmpty(id.ToString()))
                 {
-                    Company? row = _context?.Companies?.Where(x => x.Id == id).SingleOrDefault();
+                    Skill? row = _context?.Skills?.Where(x => x.Id == id).SingleOrDefault();
                     if (row != null)
                         return Ok(row);
                     else
@@ -58,16 +58,16 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(Company company)
+        public IActionResult Post(Skill Skills)
         {
             try
             {
-                _context?.Companies?.Add(company);
+                _context?.Skills?.Add(Skills);
                 _context?.SaveChanges();
                 dynamic jsonObj = new
                 {
                     Message = "Record created successfully",
-                    Record = company
+                    Record = Skills
                 };
                 return Ok(JsonConvert.SerializeObject(jsonObj, Formatting.Indented));
             }
@@ -78,17 +78,16 @@ namespace Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Company company)
+        public IActionResult Put(int id, Skill Skills)
         {
             try
             {
                 if (!string.IsNullOrEmpty(id.ToString()))
                 {
-                    Company? row = _context?.Companies?.Where(x => x.Id == id).SingleOrDefault();
+                    Skill? row = _context?.Skills?.Where(x => x.Id == id).SingleOrDefault();
                     if (row != null)
                     {
-                        row.Name = company.Name;
-                        row.Description = company.Description;
+                        row.Name = Skills.Name;
 
                         _context.Entry(row).State = EntityState.Modified;
                         _context.SaveChanges();
@@ -119,10 +118,10 @@ namespace Api.Controllers
             {
                 if (!string.IsNullOrEmpty(id.ToString()))
                 {
-                    Company? row = _context?.Companies?.Where(x => x.Id == id).SingleOrDefault();
+                    Skill? row = _context?.Skills?.Where(x => x.Id == id).SingleOrDefault();
                     if (row != null)
                     {
-                        _context?.Companies?.Remove(row);
+                        _context?.Skills?.Remove(row);
                         _context.SaveChanges();
 
                         dynamic jsonObj = new

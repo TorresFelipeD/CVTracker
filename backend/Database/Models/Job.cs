@@ -9,7 +9,7 @@ namespace Database.Models
     {
         public int Id { get; set; }
         public int CompanyId { get; set; }
-        public string? Position { get; set; }
+        public string? PositionName { get; set; }
         public string? IdSkills { get; set; }
         public string? IdRequirements { get; set; }
         public string? IdEmploymentExchange { get; set; }
