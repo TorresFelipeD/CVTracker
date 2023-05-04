@@ -30,6 +30,7 @@ namespace Database.Context
             modelBuilder.Entity<Requirement>().HasData(inMemoryMethods.CreateRequirement());
             modelBuilder.Entity<Skill>().HasData(inMemoryMethods.CreateSkills());
             modelBuilder.Entity<Status>().HasData(inMemoryMethods.CreateStatus());
+            modelBuilder.Entity<Job>().HasData(inMemoryMethods.CreateJobs());
         }
     }
 }

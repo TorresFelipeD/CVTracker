@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Database.Models;
+using Newtonsoft.Json;
 
 namespace Database.InMemory
 {
@@ -10,10 +11,6 @@ namespace Database.InMemory
     {
         private InMemoryMethods() { }
         private static InMemoryMethods? _instance;
-        private Random random = new Random();
-        string[] companiesNames = { "Rooxo", "Photospace", "Rooxo", "Tagfeed", "Lazz", "Fiveclub", "Jabbersphere", "Vimbo", "Oyoba", "Devpulse", "Lazz", "Gigabox", "Photobug", "Photobug", "Katz", "Fanoodle", "Lazz", "Aimbo", "Jaxnation", "Teklist", "Thoughtworks", "Devcast", "Photobug", "Voonder", "Realmix", "Flipopia", "Mydo", "Tagcat", "Mydo", "Snaptags" };
-        string[] descriptionWords = { "mi", "lacinia", "et", "ante", "sapien", "nec", "consequat", "sapien", "eros", "eget", "nibh", "imperdiet", "et", "maecenas", "luctus", "duis", "dis", "metus", "duis", "a", "ligula", "sapien", "ultrices", "ipsum", "sapien", "ullamcorper", "ac", "tincidunt", "lobortis", "habitasse", "augue", "pulvinar", "libero", "ac", "in", "ac", "iaculis", "consectetuer", "etiam", "mauris", "platea", "tellus", "in", "arcu", "quisque", "justo", "erat", "gravida", "felis", "orci" };
-
         public static InMemoryMethods GetInstance()
         {
             if (_instance == null)
@@ -22,8 +19,27 @@ namespace Database.InMemory
             return _instance;
         }
 
+        private List<Company> companies;
+        private List<EmploymentExchange> employmentExchanges;
+        private List<Requirement> requirements;
+        private List<Skill> skills;
+        private List<Status> status;
+        private List<Job> jobs;
+
+        private Random random = new Random();
+        string[] companiesNames = { "Rooxo", "Photospace", "Tagfeed", "Lazz", "Fiveclub", "Jabbersphere", "Vimbo", "Oyoba", "Devpulse", "Gigabox", "Photobug", "Katz", "Fanoodle", "Aimbo", "Jaxnation", "Teklist", "Thoughtworks", "Voonder", "Realmix", "Flipopia", "Mydo", "Tagcat", "Snaptags" };
+        string[] descriptionWords = { "yo", "ir", "navegar", "en", "bote", "mar", "sol", "viento", "olas", "horizonte", "destino", "viaje", "aventura", "emoción", "tranquilidad", "vela", "timón", "ancla", "costa", "puerto", "explorar", "descubrir", "náutica", "océano" };
+        string[] skillsNames = { "Comunicación efectiva", "Liderazgo", "Trabajo en equipo", "Resolución de problemas", "Pensamiento crítico", "Innovación", "Planificación estratégica", "Adaptabilidad", "Creatividad", "Toma de decisiones", "Gestión del tiempo", "Organización", "Negociación", "Aprendizaje continuo", "Empatía", "Colaboración", "Flexibilidad", "Proactividad", "Comunicación verbal", "Comunicación no verbal", "Toma de decisiones en equipo", "Gestión de proyectos", "Gestión de recursos", "Pensamiento lógico", "Paciencia" };
+        string[] requirementsNames = { "Experiencia previa", "Habilidades sociales", "Inglés avanzado", "Licencia vigente", "Excel avanzado", "Trabajo en equipo", "Puntualidad absoluta", "Disponibilidad horaria", "Adaptabilidad rápida", "Responsabilidad demostrada", "Comunicación efectiva", "Habilidades analíticas", "Liderazgo colaborativo", "Capacidad multitarea", "Orientación al cliente", "Conocimientos técnicos", "Autonomía laboral", "Capacidad resolutiva", "Creatividad e innovación", "Toma de decisiones" };
+        string[] employmentExchangesNames = { "Indeed", "LinkedIn", "Glassdoor", "Monster", "Infojobs", "Empléate", "Occmundial", "Computrabajo", "SimplyHired", "CareerBuilder" };
+        string[] statusNames = { "Solicitado", "Entrevista Tecnica", "Entrevista", "Finalizado" };
+        string[] positionNames = { "Gerente de Proyectos", "Analista de Datos", "Coordinador de Marketing", "Jefe de Recursos Humanos", "Especialista en Finanzas", "Ingeniero de Software", "Asistente de Ventas", "Director de Operaciones", "Supervisor de Producción", "Gerente de Calidad", "Analista de Sistemas", "Jefe de Desarrollo de Negocios", "Ejecutivo de Cuentas", "Consultor de Marketing Digital", "Diseñador Gráfico", "Administrador de Redes", "Coordinador de Eventos", "Asesor de Ventas", "Especialista en Logística", "Encargado de Mantenimiento" };
+        string[] jobPostingUrlFake = { "https://www.noticiasfalsas.com", "https://www.tiendaonlinefalsa.com", "https://www.bancofalso.com", "https://www.socialmediafalso.com", "https://www.empresaimaginaria.com", "https://www.serviciotecnicoenganyoso.com", "https://www.productofalso.com", "https://www.paginawebfalsa.com", "https://www.appfalsa.com", "https://www.concursotrucho.com" };
         public List<Company> CreateCompanies(int quantity = 10)
         {
+            if (!IsNullorEmptyList(companies))
+                return companies;
+
             List<Company> listCompanies = new();
             int totalPhrases = random.Next(20, 30);
             List<string> randomWords = new();
@@ -53,13 +69,17 @@ namespace Database.InMemory
                 });
             }
 
-            return listCompanies;
-        }
+            companies = listCompanies;
 
+            return companies;
+        }
         public List<EmploymentExchange> CreateEmploymentExchanges(int quantity = 10)
         {
+            if (!IsNullorEmptyList(employmentExchanges))
+                return employmentExchanges;
+
             List<EmploymentExchange> employmentExchange = new();
-            var listNames = (from cp in companiesNames.Select((name, index) => new { name, index })
+            var listNames = (from cp in employmentExchangesNames.Select((name, index) => new { name, index })
                              select new { Guid_ = Guid.NewGuid(), Id = cp.index + 1, Name = cp.name })
                                  .ToList()
                                  .OrderBy(x => x.Guid_)
@@ -75,12 +95,17 @@ namespace Database.InMemory
                 });
             }
 
-            return employmentExchange;
+            employmentExchanges = employmentExchange;
+
+            return employmentExchanges;
         }
         public List<Requirement> CreateRequirement(int quantity = 10)
         {
-            List<Requirement> requirements = new();
-            var listNames = (from cp in companiesNames.Select((name, index) => new { name, index })
+            if (!IsNullorEmptyList(requirements))
+                return requirements;
+
+            List<Requirement> listRequirements = new();
+            var listNames = (from cp in requirementsNames.Select((name, index) => new { name, index })
                              select new { Guid_ = Guid.NewGuid(), Id = cp.index + 1, Name = cp.name })
                                  .ToList()
                                  .OrderBy(x => x.Guid_)
@@ -89,19 +114,23 @@ namespace Database.InMemory
 
             foreach (var item in listNames)
             {
-                requirements.Add(new Requirement()
+                listRequirements.Add(new Requirement()
                 {
                     Id = item.Id,
                     Name = item.Name
                 });
             }
 
+            requirements = listRequirements;
             return requirements;
         }
         public List<Skill> CreateSkills(int quantity = 10)
         {
-            List<Skill> skills = new();
-            var listNames = (from cp in companiesNames.Select((name, index) => new { name, index })
+            if (!IsNullorEmptyList(skills))
+                return skills;
+
+            List<Skill> listSkills = new();
+            var listNames = (from cp in skillsNames.Select((name, index) => new { name, index })
                              select new { Guid_ = Guid.NewGuid(), Id = cp.index + 1, Name = cp.name })
                                  .ToList()
                                  .OrderBy(x => x.Guid_)
@@ -110,19 +139,23 @@ namespace Database.InMemory
 
             foreach (var item in listNames)
             {
-                skills.Add(new Skill()
+                listSkills.Add(new Skill()
                 {
                     Id = item.Id,
                     Name = item.Name
                 });
             }
 
+            skills = listSkills;
             return skills;
         }
         public List<Status> CreateStatus(int quantity = 10)
         {
-            List<Status> listsStatus = new();
-            var listNames = (from cp in companiesNames.Select((name, index) => new { name, index })
+            if (!IsNullorEmptyList(status))
+                return status;
+
+            List<Status> listStatus = new();
+            var listNames = (from cp in statusNames.Select((name, index) => new { name, index })
                              select new { Guid_ = Guid.NewGuid(), Id = cp.index + 1, Name = cp.name })
                                  .ToList()
                                  .OrderBy(x => x.Guid_)
@@ -131,15 +164,47 @@ namespace Database.InMemory
 
             foreach (var item in listNames)
             {
-                listsStatus.Add(new Status()
+                listStatus.Add(new Status()
                 {
                     Id = item.Id,
                     Name = item.Name
                 });
             }
 
-            return listsStatus;
+            status = listStatus;
+            return status;
         }
+        public List<Job> CreateJobs(int quantity = 20)
+        {
+            if (!IsNullorEmptyList(jobs))
+                return jobs;
 
+            List<Job> listJobs = new();
+            for (int i = 1; i <= quantity; i++)
+            {
+                Job item = new Job()
+                {
+                    Id = i,
+                    IdCompany = companies[random.Next(0, companies.Count)].Id,
+                    PositionName = positionNames[random.Next(0, positionNames.Count())],
+                    IdEmploymentExchange = employmentExchanges[random.Next(0, employmentExchanges.Count)].Id,
+                    JobPostingURL = jobPostingUrlFake[random.Next(0, jobPostingUrlFake.Count())],
+                    IdStatus = status[random.Next(0, status.Count)].Id,
+                    IdSkills = JsonConvert.SerializeObject((from sk in skills
+                                                            select new { Guid_ = Guid.NewGuid(), sk.Id }
+                                                            ).ToList().OrderBy(x => x.Guid_).Take(random.Next(1, skills.Count)).ToList().Select(x => x.Id).ToList()),
+                    IdRequirements = JsonConvert.SerializeObject((from rq in requirements
+                                                                  select new { Guid_ = Guid.NewGuid(), rq.Id }
+                                                            ).ToList().OrderBy(x => x.Guid_).Take(random.Next(1, requirements.Count)).ToList().Select(x => x.Id).ToList()),
+                };
+                listJobs.Add(item);
+            }
+            jobs = listJobs;
+            return jobs;
+        }
+        private bool IsNullorEmptyList<T>(List<T> list)
+        {
+            return list == null || list.Count == 0;
+        }
     }
 }
